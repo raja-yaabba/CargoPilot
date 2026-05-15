@@ -14,9 +14,12 @@ export const LandingPage = ({ onStart }: { onStart: () => void }) => {
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-brand-blue tracking-tight">CargoPilot</h1>
-            <p className="text-xs text-brand-muted mt-0.5 leading-snug">{t('sidebar.subtitle')}</p>
+          <div className="flex items-center space-x-3">
+            <img src="/logo.png" alt="CargoPilot Logo" className="w-12 h-12 object-contain" />
+            <div>
+              <h1 className="text-2xl font-bold text-brand-blue tracking-tight">CargoPilot</h1>
+              <p className="text-xs text-brand-muted mt-0.5 leading-snug">{t('sidebar.subtitle')}</p>
+            </div>
           </div>
           <div className="flex items-center space-x-4">
             <button 

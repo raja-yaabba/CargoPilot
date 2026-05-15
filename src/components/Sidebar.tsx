@@ -37,7 +37,8 @@ export const Sidebar = ({ activePage, setActivePage, isOpen, onClose }: SidebarP
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-6 flex justify-between items-start">
-          <div>
+          <div className="flex flex-col">
+            <img src="/logo.png" alt="CargoPilot Logo" className="w-12 h-12 object-contain mb-4" />
             <h1 className="text-2xl font-bold text-brand-blue tracking-tight">CargoPilot</h1>
             <p className="text-xs text-brand-muted mt-1 leading-snug">
               {t('sidebar.subtitle').split('&').map((part, i, arr) => (
