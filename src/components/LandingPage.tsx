@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { ArrowRight, BarChart3, Map, Truck, ShieldAlert, Cpu, Activity, Upload, Settings, RefreshCw, Globe } from 'lucide-react';
+import { ArrowRight, BarChart3, Map, Truck, ShieldAlert, Cpu, Activity, Upload, Settings, RefreshCw, Globe, Download } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
 export const LandingPage = ({ onStart }: { onStart: () => void }) => {
@@ -113,12 +113,21 @@ export const LandingPage = ({ onStart }: { onStart: () => void }) => {
             <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-12 md:gap-8 relative">
               <div className="hidden md:block absolute top-[28px] left-[15%] right-[15%] h-0.5 bg-gray-200 z-0"></div>
               
-              <StepCard 
-                number="1"
-                icon={<Upload className="w-5 h-5 text-gray-600" />}
-                title={t('landing.step1')}
-                desc={t('landing.step1Desc')}
-              />
+              <div className="flex flex-col items-center text-center relative z-10 flex-1 px-4">
+                <StepCard 
+                  number="1"
+                  icon={<Upload className="w-5 h-5 text-gray-600" />}
+                  title={t('landing.step1')}
+                  desc={t('landing.step1Desc')}
+                />
+                <a 
+                  href="/CargoPilot_template.csv" 
+                  download="CargoPilot_template.csv"
+                  className="mt-4 text-xs font-bold text-brand-blue hover:underline flex items-center"
+                >
+                  <Download className="w-3 h-3 mr-1" /> {t('common.downloadTemplate')}
+                </a>
+              </div>
               <StepCard 
                 number="2"
                 icon={<Settings className="w-5 h-5 text-gray-600" />}

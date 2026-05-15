@@ -22,7 +22,10 @@ export const translations = {
       dayUnit: "j",
       home: "Accueil",
       tonUnit: "t",
-      kgUnit: "kg"
+      kgUnit: "kg",
+      downloadTemplate: "Télécharger le modèle CSV",
+      exportCsv: "Exporter les données",
+      dataActions: "Données"
     },
     pages: {
       overview: "Vue d'ensemble",
@@ -261,7 +264,10 @@ export const translations = {
       dayUnit: "d",
       home: "Home",
       tonUnit: "t",
-      kgUnit: "kg"
+      kgUnit: "kg",
+      downloadTemplate: "Download CSV Template",
+      exportCsv: "Export Data",
+      dataActions: "Data"
     },
     pages: {
       overview: "Overview",

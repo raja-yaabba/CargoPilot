@@ -17,7 +17,7 @@ import { LandingPage } from './components/LandingPage';
 
 import { shipments as initialShipments, Shipment } from './data/shipments';
 import { getFilteredShipments } from './utils/analytics';
-import { Upload, RefreshCw, ChevronLeft, Menu } from 'lucide-react';
+import { Upload, RefreshCw, ChevronLeft, Menu, Download, ChevronDown, Database } from 'lucide-react';
 import { useToast } from './components/Toast';
 import { useLanguage } from './components/LanguageContext';
 import { clsx } from 'clsx';
@@ -26,6 +26,7 @@ export default function App() {
   const [showLanding, setShowLanding] = useState(true);
   const [activePage, setActivePage] = useState("overview");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isDataMenuOpen, setIsDataMenuOpen] = useState(false);
   const [shipmentsData, setShipmentsData] = useState<Shipment[]>(initialShipments);
   const [filters, setFilters] = useState({
     mode: 'All',
@@ -140,6 +141,20 @@ export default function App() {
     showToast(t('common.resetSuccess'), 'info');
   };
 
+  const handleExport = () => {
+    const csv = Papa.unparse(shipmentsData);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `CargoPilot_export_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast(t('common.success'), t('common.exportCsv'), 'success');
+  };
+
   if (showLanding) {
     return <LandingPage onStart={() => setShowLanding(false)} />;
   }
@@ -198,7 +213,7 @@ export default function App() {
               <span className="xs:hidden">{t('common.home')}</span>
             </button>
           </div>
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          <div className="flex items-center space-x-2">
             <input 
               type="file" 
               accept=".csv" 
@@ -206,23 +221,72 @@ export default function App() {
               className="hidden" 
               ref={fileInputRef}
             />
-            <button 
-              onClick={() => fileInputRef.current?.click()}
-              className="flex items-center text-gray-600 hover:text-brand-blue font-medium transition-colors p-1"
-              title={t('common.importCsv')}
-            >
-              <Upload className="w-4 h-4 mr-1" /> 
-              <span className="hidden sm:inline">{t('common.importCsv')}</span>
-            </button>
-            <div className="w-px h-4 bg-gray-300 hidden sm:block"></div>
-            <button 
-              onClick={resetData}
-              className="flex items-center text-gray-600 hover:text-brand-blue font-medium transition-colors p-1"
-              title={t('common.reset')}
-            >
-              <RefreshCw className="w-4 h-4 mr-1" /> 
-              <span className="hidden sm:inline">{t('common.reset')}</span>
-            </button>
+            
+            <div className="relative">
+              <button 
+                onClick={() => setIsDataMenuOpen(!isDataMenuOpen)}
+                className="flex items-center space-x-2 px-3 py-2 bg-brand-blue text-white rounded-lg hover:bg-blue-700 transition-all shadow-sm font-medium"
+              >
+                <Database className="w-4 h-4" />
+                <span>{t('common.dataActions') || 'Actions Données'}</span>
+                <ChevronDown className={clsx("w-4 h-4 transition-transform", isDataMenuOpen && "rotate-180")} />
+              </button>
+
+              {isDataMenuOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setIsDataMenuOpen(false)}
+                  />
+                  <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-50 py-2 animate-in fade-in zoom-in-95 duration-200 origin-top-right">
+                    <button 
+                      onClick={() => {
+                        fileInputRef.current?.click();
+                        setIsDataMenuOpen(false);
+                      }}
+                      className="w-full flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      <Upload className="w-4 h-4 mr-3 text-brand-blue" />
+                      {t('common.importCsv')}
+                    </button>
+                    
+                    <button 
+                      onClick={() => {
+                        handleExport();
+                        setIsDataMenuOpen(false);
+                      }}
+                      className="w-full flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      <Download className="w-4 h-4 mr-3 text-brand-blue" />
+                      {t('common.exportCsv')}
+                    </button>
+
+                    <div className="h-px bg-gray-100 my-1 mx-2" />
+
+                    <a 
+                      href="/CargoPilot_template.csv" 
+                      download="CargoPilot_template.csv"
+                      className="w-full flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      onClick={() => setIsDataMenuOpen(false)}
+                    >
+                      <Download className="w-4 h-4 mr-3 text-gray-500" />
+                      {t('common.downloadTemplate')}
+                    </a>
+
+                    <button 
+                      onClick={() => {
+                        resetData();
+                        setIsDataMenuOpen(false);
+                      }}
+                      className="w-full flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                    >
+                      <RefreshCw className="w-4 h-4 mr-3" />
+                      {t('common.reset')}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
 
