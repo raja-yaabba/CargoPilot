@@ -6,11 +6,13 @@ import { RiskBadge } from "./RiskBadge";
 import { ModeBadge } from "./ModeBadge";
 import { formatCurrency, formatDelay } from "../utils/formatters";
 import { useLanguage } from "./LanguageContext";
-import { Plane, Ship, Truck, Info } from "lucide-react";
+import { Plane, Ship, Truck, Info, ChevronDown } from "lucide-react";
+import { clsx } from "clsx";
 
 export const TransportMap = ({ shipments }: { shipments: Shipment[] }) => {
   const { t } = useLanguage();
   const [showAllFlows, setShowAllFlows] = useState(false);
+  const [isLegendExpanded, setIsLegendExpanded] = useState(window.innerWidth >= 1024);
   
   const visibleShipments = useMemo(() => showAllFlows 
     ? shipments 
@@ -175,65 +177,82 @@ export const TransportMap = ({ shipments }: { shipments: Shipment[] }) => {
       </div>
 
       {/* Modern Legend */}
-      <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-2xl z-[1000] border border-white/20 min-w-[180px]">
-        <div className="mb-3">
-          <h4 className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2">{t('map.riskTitle')}</h4>
-          <div className="grid grid-cols-2 gap-1.5">
-            <div className="flex items-center px-1.5 py-1 rounded bg-green-50 text-[10px] font-bold text-green-700">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
-              {t('data.risks.Low')}
-            </div>
-            <div className="flex items-center px-1.5 py-1 rounded bg-yellow-50 text-[10px] font-bold text-yellow-700">
-              <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 mr-1.5 shadow-[0_0_8px_rgba(250,204,21,0.5)]"></span>
-              {t('data.risks.Medium')}
-            </div>
-            <div className="flex items-center px-1.5 py-1 rounded bg-orange-50 text-[10px] font-bold text-orange-700">
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-400 mr-1.5 shadow-[0_0_8px_rgba(251,146,60,0.5)]"></span>
-              {t('data.risks.High')}
-            </div>
-            <div className="flex items-center px-1.5 py-1 rounded bg-red-50 text-[10px] font-bold text-red-700">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 shadow-[0_0_8px_rgba(239,68,68,0.5)]"></span>
-              {t('data.risks.Critical')}
-            </div>
-          </div>
-        </div>
+      <div className={clsx(
+        "absolute bottom-4 right-4 bg-white/90 backdrop-blur-md rounded-xl shadow-2xl z-[1000] border border-white/20 transition-all duration-300 ease-in-out",
+        isLegendExpanded ? "p-4 min-w-[180px]" : "p-2 w-10 h-10 flex items-center justify-center overflow-hidden"
+      )}>
+        <button 
+          onClick={() => setIsLegendExpanded(!isLegendExpanded)}
+          className={clsx(
+            "absolute top-2 right-2 p-1 hover:bg-gray-100 rounded-lg transition-colors",
+            !isLegendExpanded && "relative top-0 right-0"
+          )}
+        >
+          <ChevronDown className={clsx("w-4 h-4 text-gray-500 transition-transform", isLegendExpanded ? "rotate-0" : "rotate-180")} />
+        </button>
 
-        <div>
-          <h4 className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2">{t('map.modeTitle')}</h4>
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-between p-1.5 rounded-lg border border-gray-100 hover:border-gray-200 transition-colors">
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded bg-gray-100 flex items-center justify-center mr-2">
-                  <Truck className="w-3 h-3 text-gray-600" />
+        {isLegendExpanded && (
+          <div className="animate-in fade-in duration-300">
+            <div className="mb-3">
+              <h4 className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2">{t('map.riskTitle')}</h4>
+              <div className="grid grid-cols-2 gap-1.5">
+                <div className="flex items-center px-1.5 py-1 rounded bg-green-50 text-[10px] font-bold text-green-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
+                  {t('data.risks.Low')}
                 </div>
-                <span className="text-[10px] font-bold text-gray-700">{t('data.modes.Road')}</span>
+                <div className="flex items-center px-1.5 py-1 rounded bg-yellow-50 text-[10px] font-bold text-yellow-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 mr-1.5 shadow-[0_0_8px_rgba(250,204,21,0.5)]"></span>
+                  {t('data.risks.Medium')}
+                </div>
+                <div className="flex items-center px-1.5 py-1 rounded bg-orange-50 text-[10px] font-bold text-orange-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-400 mr-1.5 shadow-[0_0_8px_rgba(251,146,60,0.5)]"></span>
+                  {t('data.risks.High')}
+                </div>
+                <div className="flex items-center px-1.5 py-1 rounded bg-red-50 text-[10px] font-bold text-red-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 shadow-[0_0_8px_rgba(239,68,68,0.5)]"></span>
+                  {t('data.risks.Critical')}
+                </div>
               </div>
-              <div className="w-8 h-0.5 bg-gray-300 rounded-full"></div>
             </div>
-            <div className="flex items-center justify-between p-1.5 rounded-lg border border-gray-100 hover:border-gray-200 transition-colors">
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded bg-blue-50 flex items-center justify-center mr-2">
-                  <Ship className="w-3 h-3 text-blue-600" />
+
+            <div>
+              <h4 className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2">{t('map.modeTitle')}</h4>
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between p-1.5 rounded-lg border border-gray-100 hover:border-gray-200 transition-colors">
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 rounded bg-gray-100 flex items-center justify-center mr-2">
+                      <Truck className="w-3 h-3 text-gray-600" />
+                    </div>
+                    <span className="text-[10px] font-bold text-gray-700">{t('data.modes.Road')}</span>
+                  </div>
+                  <div className="w-8 h-0.5 bg-gray-300 rounded-full"></div>
                 </div>
-                <span className="text-[10px] font-bold text-gray-700">{t('data.modes.Sea')}</span>
-              </div>
-              <div className="w-8 flex space-x-0.5">
-                {[1, 2, 3].map(i => <div key={i} className="flex-1 h-0.5 bg-blue-300 rounded-full"></div>)}
-              </div>
-            </div>
-            <div className="flex items-center justify-between p-1.5 rounded-lg border border-gray-100 hover:border-gray-200 transition-colors">
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded bg-purple-50 flex items-center justify-center mr-2">
-                  <Plane className="w-3 h-3 text-purple-600" />
+                <div className="flex items-center justify-between p-1.5 rounded-lg border border-gray-100 hover:border-gray-200 transition-colors">
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 rounded bg-blue-50 flex items-center justify-center mr-2">
+                      <Ship className="w-3 h-3 text-blue-600" />
+                    </div>
+                    <span className="text-[10px] font-bold text-gray-700">{t('data.modes.Sea')}</span>
+                  </div>
+                  <div className="w-8 flex space-x-0.5">
+                    {[1, 2, 3].map(i => <div key={i} className="flex-1 h-0.5 bg-blue-300 rounded-full"></div>)}
+                  </div>
                 </div>
-                <span className="text-[10px] font-bold text-gray-700">{t('data.modes.Air')}</span>
-              </div>
-              <div className="w-8 flex space-x-0.5">
-                {[1, 2, 3, 4, 5].map(i => <div key={i} className="flex-1 h-0.5 bg-purple-300 rounded-full"></div>)}
+                <div className="flex items-center justify-between p-1.5 rounded-lg border border-gray-100 hover:border-gray-200 transition-colors">
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 rounded bg-purple-50 flex items-center justify-center mr-2">
+                      <Plane className="w-3 h-3 text-purple-600" />
+                    </div>
+                    <span className="text-[10px] font-bold text-gray-700">{t('data.modes.Air')}</span>
+                  </div>
+                  <div className="w-8 flex space-x-0.5">
+                    {[1, 2, 3, 4, 5].map(i => <div key={i} className="flex-1 h-0.5 bg-purple-300 rounded-full"></div>)}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

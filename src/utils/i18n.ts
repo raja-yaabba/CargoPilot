@@ -19,7 +19,8 @@ export const translations = {
       importError: "Erreur lors de la lecture du fichier CSV.",
       importMissingCols: "Erreur d'importation. Colonnes manquantes :",
       resetSuccess: "Les données de démonstration fictives ont été restaurées.",
-      dayUnit: "j"
+      dayUnit: "j",
+      home: "Accueil"
     },
     pages: {
       overview: "Vue d'ensemble",
@@ -255,7 +256,8 @@ export const translations = {
       importError: "Error reading CSV file.",
       importMissingCols: "Import error. Missing columns:",
       resetSuccess: "Demo data has been restored.",
-      dayUnit: "d"
+      dayUnit: "d",
+      home: "Home"
     },
     pages: {
       overview: "Overview",

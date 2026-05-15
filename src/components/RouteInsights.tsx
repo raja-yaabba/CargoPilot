@@ -64,22 +64,22 @@ export const RouteInsights = ({ shipments }: { shipments: Shipment[] }) => {
           </div>
         </div>
         
-        <div className="grid grid-cols-4 gap-4 mb-4 bg-gray-50 p-3 rounded-lg">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4 bg-gray-50 p-3 rounded-lg">
           <div>
-            <div className="text-xs text-brand-muted mb-1">{t('routes.colShipments')}</div>
-            <div className="font-semibold text-gray-900">{route.total}</div>
+            <div className="text-[10px] sm:text-xs text-brand-muted mb-1">{t('routes.colShipments')}</div>
+            <div className="text-sm sm:text-base font-semibold text-gray-900">{route.total}</div>
           </div>
           <div>
-            <div className="text-xs text-brand-muted mb-1">{t('routes.colDelayRate')}</div>
-            <div className="font-semibold text-red-600">{formatPercent(route.delayRate)}</div>
+            <div className="text-[10px] sm:text-xs text-brand-muted mb-1">{t('routes.colDelayRate')}</div>
+            <div className="text-sm sm:text-base font-semibold text-red-600">{formatPercent(route.delayRate)}</div>
           </div>
           <div>
-            <div className="text-xs text-brand-muted mb-1">{t('routes.colAvgDelay')}</div>
-            <div className="font-semibold text-gray-900">{route.avgDelay.toFixed(1)} {t('common.dayUnit')}</div>
+            <div className="text-[10px] sm:text-xs text-brand-muted mb-1">{t('routes.colAvgDelay')}</div>
+            <div className="text-sm sm:text-base font-semibold text-gray-900">{route.avgDelay.toFixed(1)} {t('common.dayUnit')}</div>
           </div>
           <div>
-            <div className="text-xs text-brand-muted mb-1">{t('routes.colTotalCost')}</div>
-            <div className="font-semibold text-gray-900">{formatCurrency(route.totalCost)}</div>
+            <div className="text-[10px] sm:text-xs text-brand-muted mb-1">{t('routes.colTotalCost')}</div>
+            <div className="text-sm sm:text-base font-semibold text-gray-900">{formatCurrency(route.totalCost)}</div>
           </div>
         </div>
       </div>

@@ -27,13 +27,13 @@ export const Sidebar = ({ activePage, setActivePage, isOpen, onClose }: SidebarP
       {/* Overlay for mobile */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[60] lg:hidden"
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[5000] lg:hidden"
           onClick={onClose}
         />
       )}
       
       <div className={clsx(
-        "w-64 bg-white border-r border-[#E5E7EB] h-screen flex flex-col fixed left-0 top-0 z-[70] transition-transform duration-300 ease-in-out lg:translate-x-0",
+        "w-64 bg-white border-r border-[#E5E7EB] h-screen flex flex-col fixed left-0 top-0 z-[5010] transition-transform duration-300 ease-in-out lg:translate-x-0",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-6 flex justify-between items-start">

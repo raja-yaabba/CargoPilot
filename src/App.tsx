@@ -181,11 +181,11 @@ export default function App() {
         "lg:ml-64"
       )}>
         {/* Top bar with back to home and CSV actions */}
-        <div className="absolute top-0 right-0 left-0 h-12 bg-white/80 backdrop-blur-sm border-b border-gray-200 z-50 flex items-center justify-between px-6 text-sm">
+        <div className="sticky top-0 right-0 left-0 h-14 lg:h-12 bg-white/90 backdrop-blur-sm border-b border-gray-200 z-[1500] flex items-center justify-between px-4 lg:px-6 text-[10px] sm:text-sm">
           <div className="flex items-center">
             <button 
               onClick={() => setIsSidebarOpen(true)}
-              className="lg:hidden p-1 mr-2 text-gray-500 hover:text-brand-blue"
+              className="lg:hidden p-2 -ml-1 mr-2 text-gray-500 hover:text-brand-blue"
             >
               <Menu className="w-5 h-5" />
             </button>
@@ -193,10 +193,12 @@ export default function App() {
               onClick={() => setShowLanding(true)}
               className="flex items-center text-gray-500 hover:text-brand-blue font-medium transition-colors"
             >
-              <ChevronLeft className="w-4 h-4 mr-1" /> {t('common.backToHome')}
+              <ChevronLeft className="w-4 h-4 mr-0.5 sm:mr-1" /> 
+              <span className="hidden xs:inline">{t('common.backToHome')}</span>
+              <span className="xs:hidden">{t('common.home')}</span>
             </button>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <input 
               type="file" 
               accept=".csv" 
@@ -206,23 +208,25 @@ export default function App() {
             />
             <button 
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center text-gray-600 hover:text-brand-blue font-medium transition-colors"
+              className="flex items-center text-gray-600 hover:text-brand-blue font-medium transition-colors p-1"
               title={t('common.importCsv')}
             >
-              <Upload className="w-4 h-4 mr-1" /> {t('common.importCsv')}
+              <Upload className="w-4 h-4 mr-1" /> 
+              <span className="hidden sm:inline">{t('common.importCsv')}</span>
             </button>
-            <div className="w-px h-4 bg-gray-300"></div>
+            <div className="w-px h-4 bg-gray-300 hidden sm:block"></div>
             <button 
               onClick={resetData}
-              className="flex items-center text-gray-600 hover:text-brand-blue font-medium transition-colors"
+              className="flex items-center text-gray-600 hover:text-brand-blue font-medium transition-colors p-1"
               title={t('common.reset')}
             >
-              <RefreshCw className="w-4 h-4 mr-1" /> {t('common.reset')}
+              <RefreshCw className="w-4 h-4 mr-1" /> 
+              <span className="hidden sm:inline">{t('common.reset')}</span>
             </button>
           </div>
         </div>
 
-        <div className="mt-12 flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col">
           <Header 
             title={t(`pages.${activePage}`)} 
             filters={filters} 
@@ -230,7 +234,7 @@ export default function App() {
             carriersList={carriersList}
           />
           
-          <main className="flex-1 p-8 overflow-y-auto w-full max-w-7xl mx-auto">
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto w-full max-w-7xl mx-auto">
             {renderContent()}
           </main>
         </div>

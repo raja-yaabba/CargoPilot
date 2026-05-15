@@ -40,14 +40,14 @@ export const DataQualityPanel = ({ shipments }: { shipments: Shipment[] }) => {
             <p className="text-sm text-gray-600 mb-4">
               {t('quality.summaryDesc')}
             </p>
-            <div className="flex space-x-8">
-              <div>
-                <span className="text-2xl font-semibold text-gray-900">{totalRows}</span>
-                <span className="text-sm text-gray-500 ml-2">{t('quality.totalRows')}</span>
+            <div className="flex flex-wrap gap-6">
+              <div className="flex items-center">
+                <span className="text-xl sm:text-2xl font-semibold text-gray-900">{totalRows}</span>
+                <span className="text-xs sm:text-sm text-gray-500 ml-2 uppercase tracking-wider">{t('quality.totalRows')}</span>
               </div>
-              <div>
-                <span className="text-2xl font-semibold text-red-600">{anomalies.length}</span>
-                <span className="text-sm text-gray-500 ml-2">{t('quality.anomaliesCount')}</span>
+              <div className="flex items-center">
+                <span className="text-xl sm:text-2xl font-semibold text-red-600">{anomalies.length}</span>
+                <span className="text-xs sm:text-sm text-gray-500 ml-2 uppercase tracking-wider">{t('quality.anomaliesCount')}</span>
               </div>
             </div>
           </div>
@@ -64,8 +64,8 @@ export const DataQualityPanel = ({ shipments }: { shipments: Shipment[] }) => {
               <tr>
                 <th className="px-6 py-3">{t('quality.colId')}</th>
                 <th className="px-6 py-3">{t('quality.colType')}</th>
-                <th className="px-6 py-3">{t('quality.colSeverity')}</th>
-                <th className="px-6 py-3">{t('quality.colRec')}</th>
+                <th className="px-6 py-3 hidden sm:table-cell">{t('quality.colSeverity')}</th>
+                <th className="px-6 py-3 hidden lg:table-cell">{t('quality.colRec')}</th>
               </tr>
             </thead>
             <tbody>
@@ -74,7 +74,6 @@ export const DataQualityPanel = ({ shipments }: { shipments: Shipment[] }) => {
                              a.severity === 'Élevée' ? 'High' : 
                              a.severity === 'Moyenne' ? 'Medium' : 'Low';
                 
-                // Map recommendation strings to keys
                 const recKey = a.recommendation.includes('manuelle') ? 'manual' :
                               a.recommendation.includes('TMS') ? 'tms' :
                               a.recommendation.includes('facture') ? 'cost' :
@@ -87,14 +86,26 @@ export const DataQualityPanel = ({ shipments }: { shipments: Shipment[] }) => {
 
                 return (
                   <tr key={`${a.id}-${i}`} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900">{a.id}</td>
-                    <td className="px-6 py-4 flex items-center text-gray-700">
-                      <Info className="w-4 h-4 text-brand-blue mr-2" />
-                      {t(`quality.types.${a.type}`)}
-                    </td>
+                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{a.id}</td>
                     <td className="px-6 py-4">
+                      <div className="flex items-center text-gray-700">
+                        <Info className="w-4 h-4 text-brand-blue mr-2 shrink-0 hidden xs:block" />
+                        <span className="font-medium sm:font-normal">{t(`quality.types.${a.type}`)}</span>
+                      </div>
+                      <div className="sm:hidden mt-1 flex items-center space-x-2">
+                        <span className={clsx(
+                          "text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-tight",
+                          sevKey === 'Critical' || sevKey === 'High' ? "bg-red-50 text-red-600" :
+                          sevKey === 'Medium' ? "bg-orange-50 text-orange-600" :
+                          "bg-yellow-50 text-yellow-600"
+                        )}>
+                          {t(`quality.severities.${sevKey}`)}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 hidden sm:table-cell">
                       <span className={clsx(
-                        "px-2 py-1 rounded text-xs font-medium",
+                        "px-2 py-1 rounded text-xs font-medium whitespace-nowrap",
                         sevKey === 'Critical' || sevKey === 'High' ? "bg-red-100 text-red-800" :
                         sevKey === 'Medium' ? "bg-orange-100 text-orange-800" :
                         "bg-yellow-100 text-yellow-800"
@@ -102,7 +113,7 @@ export const DataQualityPanel = ({ shipments }: { shipments: Shipment[] }) => {
                         {t(`quality.severities.${sevKey}`)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-600">{recKey ? t(`quality.recommendations.${recKey}`) : a.recommendation}</td>
+                    <td className="px-6 py-4 text-gray-600 hidden lg:table-cell">{recKey ? t(`quality.recommendations.${recKey}`) : a.recommendation}</td>
                   </tr>
                 );
               }) : (

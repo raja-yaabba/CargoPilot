@@ -62,7 +62,7 @@ export const Overview = ({ shipments }: { shipments: Shipment[] }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
         <KpiCard title={t('overview.kpiTotal')} value={formatNumber(kpis.total)} icon={<Package className="w-5 h-5" />} />
         <KpiCard title={t('overview.kpiDelayRate')} value={formatPercent(kpis.delayRate)} icon={<AlertCircle className="w-5 h-5 text-red-500" />} />
         <KpiCard title={t('overview.kpiAvgDelay')} value={`${kpis.avgDelay.toFixed(1)} j`} icon={<Clock className="w-5 h-5 text-orange-500" />} />
@@ -73,28 +73,30 @@ export const Overview = ({ shipments }: { shipments: Shipment[] }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ChartCard title={t('overview.chartMode')}>
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={byMode}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={80}
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {byMode.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-                ))}
-              </Pie>
-              <RechartsTooltip />
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="flex justify-center space-x-6 mt-4">
+          <div className="h-[250px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={byMode}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {byMode.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                  ))}
+                </Pie>
+                <RechartsTooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="flex flex-wrap justify-center gap-4 mt-4">
             {byMode.map((entry, index) => (
-              <div key={entry.name} className="flex items-center text-sm">
-                <span className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: colors[index % colors.length] }}></span>
+              <div key={entry.name} className="flex items-center text-xs sm:text-sm">
+                <span className="w-3 h-3 rounded-full mr-2 shrink-0" style={{ backgroundColor: colors[index % colors.length] }}></span>
                 {entry.name} ({entry.value})
               </div>
             ))}
@@ -102,19 +104,21 @@ export const Overview = ({ shipments }: { shipments: Shipment[] }) => {
         </ChartCard>
 
         <ChartCard title={t('overview.chartReason')}>
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart layout="vertical" data={delayReasons} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-              <XAxis type="number" />
-              <YAxis dataKey="name" type="category" width={140} tick={{ fontSize: 12 }} />
-              <RechartsTooltip />
-              <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                {delayReasons.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={barColors[index % barColors.length]} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="h-[250px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart layout="vertical" data={delayReasons} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                <XAxis type="number" hide={window.innerWidth < 640} />
+                <YAxis dataKey="name" type="category" width={window.innerWidth < 640 ? 80 : 120} tick={{ fontSize: 10 }} />
+                <RechartsTooltip />
+                <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                  {delayReasons.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={barColors[index % barColors.length]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </ChartCard>
       </div>
 
@@ -128,25 +132,28 @@ export const Overview = ({ shipments }: { shipments: Shipment[] }) => {
               <tr>
                 <th className="px-6 py-3">{t('overview.colShipment')}</th>
                 <th className="px-6 py-3">{t('overview.colRoute')}</th>
-                <th className="px-6 py-3">{t('overview.colMode')}</th>
-                <th className="px-6 py-3">{t('overview.colCarrier')}</th>
-                <th className="px-6 py-3">{t('overview.colStatus')}</th>
-                <th className="px-6 py-3">{t('overview.colRisk')}</th>
+                <th className="px-6 py-3 hidden sm:table-cell">{t('overview.colMode')}</th>
+                <th className="px-6 py-3 hidden md:table-cell">{t('overview.colCarrier')}</th>
+                <th className="px-6 py-3 hidden lg:table-cell">{t('overview.colStatus')}</th>
+                <th className="px-6 py-3 text-right sm:text-left">{t('overview.colRisk')}</th>
               </tr>
             </thead>
             <tbody>
               {criticalAlerts.length > 0 ? criticalAlerts.map(s => (
                 <tr key={s.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-4 font-medium text-gray-900">{s.id}</td>
-                  <td className="px-6 py-4 text-gray-600">{s.originCity} &rarr; {s.destinationCity}</td>
-                  <td className="px-6 py-4"><ModeBadge mode={s.mode} /></td>
-                  <td className="px-6 py-4 text-gray-600">{s.carrier || t('overview.unknown')}</td>
                   <td className="px-6 py-4">
+                    <div className="text-gray-900 sm:text-gray-600">{s.originCity} &rarr; {s.destinationCity}</div>
+                    <div className="sm:hidden text-[10px] text-gray-400 mt-1 uppercase tracking-tighter">{s.carrier}</div>
+                  </td>
+                  <td className="px-6 py-4 hidden sm:table-cell"><ModeBadge mode={s.mode} /></td>
+                  <td className="px-6 py-4 text-gray-600 hidden md:table-cell">{s.carrier || t('overview.unknown')}</td>
+                  <td className="px-6 py-4 hidden lg:table-cell">
                     <span className={s.delayDays > 0 ? 'text-red-600 font-medium' : 'text-gray-600'}>
                       {s.delayDays > 0 ? formatDelay(s.delayDays, t) : t(`data.status.${s.status}`)}
                     </span>
                   </td>
-                  <td className="px-6 py-4"><RiskBadge level={s.riskLevel} /></td>
+                  <td className="px-6 py-4 text-right sm:text-left"><RiskBadge level={s.riskLevel} /></td>
                 </tr>
               )) : (
                 <tr>

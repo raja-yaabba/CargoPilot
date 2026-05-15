@@ -72,24 +72,27 @@ export const CarrierPerformance = ({ shipments }: { shipments: Shipment[] }) => 
             <thead className="text-xs text-brand-muted uppercase bg-gray-50 border-b border-gray-100">
               <tr>
                 <th className="px-6 py-3">{t('carriers.colName')}</th>
-                <th className="px-6 py-3 text-right">{t('carriers.colTotal')}</th>
+                <th className="px-6 py-3 text-right hidden sm:table-cell">{t('carriers.colTotal')}</th>
                 <th className="px-6 py-3 text-right">{t('carriers.colDelayRate')}</th>
-                <th className="px-6 py-3 text-right">{t('carriers.colAvgDelay')}</th>
-                <th className="px-6 py-3 text-right">{t('carriers.colAvgCost')}</th>
+                <th className="px-6 py-3 text-right hidden md:table-cell">{t('carriers.colAvgDelay')}</th>
+                <th className="px-6 py-3 text-right hidden lg:table-cell">{t('carriers.colAvgCost')}</th>
                 <th className="px-6 py-3 text-center">{t('carriers.colScore')}</th>
-                <th className="px-6 py-3">{t('carriers.colStatus')}</th>
+                <th className="px-6 py-3 hidden xs:table-cell">{t('carriers.colStatus')}</th>
               </tr>
             </thead>
             <tbody>
               {performance.length > 0 ? performance.map(c => (
                 <tr key={c.name} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-gray-900">{c.name}</td>
-                  <td className="px-6 py-4 text-right text-gray-600">{c.total}</td>
+                  <td className="px-6 py-4 font-medium text-gray-900">
+                    {c.name}
+                    <div className="xs:hidden mt-1">{getRatingBadge(c.rating)}</div>
+                  </td>
+                  <td className="px-6 py-4 text-right text-gray-600 hidden sm:table-cell">{c.total}</td>
                   <td className="px-6 py-4 text-right text-gray-600">{formatPercent(c.delayRate)}</td>
-                  <td className="px-6 py-4 text-right text-gray-600">{c.avgDelay.toFixed(1)} j</td>
-                  <td className="px-6 py-4 text-right text-gray-600">{formatCurrency(c.avgCost)}</td>
+                  <td className="px-6 py-4 text-right text-gray-600 hidden md:table-cell">{c.avgDelay.toFixed(1)} j</td>
+                  <td className="px-6 py-4 text-right text-gray-600 hidden lg:table-cell">{formatCurrency(c.avgCost)}</td>
                   <td className="px-6 py-4 text-center font-semibold text-gray-900">{c.rating === 'Insufficient' ? '-' : c.score}</td>
-                  <td className="px-6 py-4">{getRatingBadge(c.rating)}</td>
+                  <td className="px-6 py-4 hidden xs:table-cell">{getRatingBadge(c.rating)}</td>
                 </tr>
               )) : (
                 <tr>
