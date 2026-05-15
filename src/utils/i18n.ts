@@ -20,7 +20,9 @@ export const translations = {
       importMissingCols: "Erreur d'importation. Colonnes manquantes :",
       resetSuccess: "Les données de démonstration fictives ont été restaurées.",
       dayUnit: "j",
-      home: "Accueil"
+      home: "Accueil",
+      tonUnit: "t",
+      kgUnit: "kg"
     },
     pages: {
       overview: "Vue d'ensemble",
@@ -257,7 +259,9 @@ export const translations = {
       importMissingCols: "Import error. Missing columns:",
       resetSuccess: "Demo data has been restored.",
       dayUnit: "d",
-      home: "Home"
+      home: "Home",
+      tonUnit: "t",
+      kgUnit: "kg"
     },
     pages: {
       overview: "Overview",

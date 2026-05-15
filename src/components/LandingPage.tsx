@@ -107,7 +107,7 @@ export const LandingPage = ({ onStart }: { onStart: () => void }) => {
         <div className="bg-gray-50 py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 className="text-3xl font-bold text-gray-900 text-center mb-16">{t('landing.howItWorks')}</h3>
-            <div className="flex flex-col md:flex-row justify-center items-start gap-8 relative">
+            <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-12 md:gap-8 relative">
               <div className="hidden md:block absolute top-[28px] left-[15%] right-[15%] h-0.5 bg-gray-200 z-0"></div>
               
               <StepCard 
@@ -161,6 +161,6 @@ const StepCard = ({ number, icon, title, desc }: { number: string, icon: React.R
       {icon}
     </div>
     <h4 className="text-lg font-semibold text-gray-900 mb-2">{title}</h4>
-    <p className="text-gray-500 text-sm max-w-[200px]">{desc}</p>
+    <p className="text-gray-500 text-sm max-w-[280px]">{desc}</p>
   </div>
 );

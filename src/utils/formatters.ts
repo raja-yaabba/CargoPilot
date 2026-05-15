@@ -23,8 +23,8 @@ export const formatDelay = (days: number, t?: (key: string) => string) => {
   return t ? t('data.delays.delay').replace('{days}', days.toString()) : `${days} jours de retard`;
 };
 
-export const formatCo2 = (kg: number) => {
-  if (kg >= 1000) return `${(kg / 1000).toFixed(1)} t`;
-  return `${Math.round(kg)} kg`;
+export const formatCo2 = (kg: number, t?: (key: string) => string) => {
+  if (kg >= 1000) return `${(kg / 1000).toFixed(1)} ${t ? t('common.tonUnit') : 't'}`;
+  return `${Math.round(kg)} ${t ? t('common.kgUnit') : 'kg'}`;
 };
 

@@ -65,10 +65,10 @@ export const Overview = ({ shipments }: { shipments: Shipment[] }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
         <KpiCard title={t('overview.kpiTotal')} value={formatNumber(kpis.total)} icon={<Package className="w-5 h-5" />} />
         <KpiCard title={t('overview.kpiDelayRate')} value={formatPercent(kpis.delayRate)} icon={<AlertCircle className="w-5 h-5 text-red-500" />} />
-        <KpiCard title={t('overview.kpiAvgDelay')} value={`${kpis.avgDelay.toFixed(1)} j`} icon={<Clock className="w-5 h-5 text-orange-500" />} />
+        <KpiCard title={t('overview.kpiAvgDelay')} value={`${kpis.avgDelay.toFixed(1)} ${t('common.dayUnit')}`} icon={<Clock className="w-5 h-5 text-orange-500" />} />
         <KpiCard title={t('overview.kpiTotalCost')} value={formatCurrency(kpis.totalCost)} icon={<DollarSign className="w-5 h-5 text-green-500" />} />
         <KpiCard title={t('overview.kpiCritical')} value={kpis.criticalCount} icon={<Activity className="w-5 h-5 text-red-600" />} />
-        <KpiCard title={t('overview.kpiCo2')} value={formatCo2(kpis.avgCo2)} icon={<CloudRain className="w-5 h-5 text-teal-500" />} />
+        <KpiCard title={t('overview.kpiCo2')} value={formatCo2(kpis.avgCo2, t)} icon={<CloudRain className="w-5 h-5 text-teal-500" />} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

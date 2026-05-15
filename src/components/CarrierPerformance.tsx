@@ -89,7 +89,7 @@ export const CarrierPerformance = ({ shipments }: { shipments: Shipment[] }) => 
                   </td>
                   <td className="px-6 py-4 text-right text-gray-600 hidden sm:table-cell">{c.total}</td>
                   <td className="px-6 py-4 text-right text-gray-600">{formatPercent(c.delayRate)}</td>
-                  <td className="px-6 py-4 text-right text-gray-600 hidden md:table-cell">{c.avgDelay.toFixed(1)} j</td>
+                  <td className="px-6 py-4 text-right text-gray-600 hidden md:table-cell">{c.avgDelay.toFixed(1)} {t('common.dayUnit')}</td>
                   <td className="px-6 py-4 text-right text-gray-600 hidden lg:table-cell">{formatCurrency(c.avgCost)}</td>
                   <td className="px-6 py-4 text-center font-semibold text-gray-900">{c.rating === 'Insufficient' ? '-' : c.score}</td>
                   <td className="px-6 py-4 hidden xs:table-cell">{getRatingBadge(c.rating)}</td>
