@@ -2,8 +2,6 @@
 
 **CargoPilot** est une application web moderne conçue pour les professionnels de la logistique et de la supply chain. Elle permet de visualiser, analyser et optimiser les flux de transport internationaux à travers une interface intuitive, bilingue (Français/Anglais) et performante.
 
-![CargoPilot Banner](https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6)
-
 ## 🌟 Fonctionnalités Clés
 
 ### 📊 Tableau de Bord (Overview)
